@@ -1,0 +1,62 @@
+---
+title: "Untitled"
+author: "JeonJunho"
+date: "2024-04-30"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(DT)
+```
+
+# Problem Forulation 
+
+예전에, web craling practicing을 하면서 음악 사이트를 web crawling한 적이 있다.
+
+그때, 재밌는 점이, 굉장히 옛날 노래들이 in200을 유지하고 있는 경우가 많이 보였다는 점이다.
+
+이번 주제는 permanent music : 이 음악이 오래 살아남을 것인가 에 대해 categorical model을 세워보고자 한다.
+
+------------------------------------------------------------------------
+
+# Data Preparing
+
+본인이 Genie music을 애용하기도 했고, crawling의 편의성을 이유로 genie를 선택했다.
+
+(genie 사진)
+
+```{r, echo=FALSE}
+df1 <- read.table("C:/Users/p5682/Desktop/R_cloud/R_2024/DataMining_proj/genie200.txt")
+df1 <- df1 %>% mutate(date = as.Date(date))
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(DT)
+```
+
+# Problem Forulation 
+
+예전에, web craling practicing을 하면서 음악 사이트를 web crawling한 적이 있다.
+
+그때, 재밌는 점이, 굉장히 옛날 노래들이 in200을 유지하고 있는 경우가 많이 보였다는 점이다.
+
+이번 주제는 permanent music : 이 음악이 오래 살아남을 것인가 에 대해 categorical model을 세워보고자 한다.
+
+------------------------------------------------------------------------
+
+# Data Preparing
+
+본인이 Genie music을 애용하기도 했고, crawling의 편의성을 이유로 genie를 선택했다.
+
+(genie 사진)
+
+```{r, echo=FALSE}
+df1 <- read.table("C:/Users/p5682/Desktop/R_cloud/R_2024/DataMining_proj/genie200.txt")
+df1 <- df1 %>% mutate(date = as.Date(date))
+tibble((head(df1))
+```
+```
