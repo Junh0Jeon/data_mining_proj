@@ -1,7 +1,7 @@
 #### Data Load ####
 
 ##### Raw Data ####
-df1 <- read.table("C:/Users/JeonJunho/Desktop/R_cloud/Git_R/data_mining_proj/genie200.txt")
+df1 <- read.table("C:/Users/JeonJunho/Documents/git/data_mining_proj/genie200.txt")
 df1 <- df1 %>% mutate(date = as.Date(date))
 ## 곡명을 uniq로 전처리
 genie200 <- df1 %>% mutate(uniq_title = paste(title, " :: ", artist)) %>%
@@ -16,6 +16,11 @@ genie200 <- tibble(genie200) %>%
     mutate(rankingdiff = ranking_diff) %>% tibble()
 
 ##### Basic Data ####
+latest_date <- max(genie200$date)
+pastest_date <- min(genie200$date)
+threshold_date <- as.Date("2024-01-01") - as.Date("2022-01-10")
+
+
 alive_date <- c()
 ranking_list <- list()
 uniq_titles <- unique(genie200$uniq_title)
@@ -46,13 +51,12 @@ df_release_date <- genie200 %>%
            lasting_date = max(date)) %>%
     select(uniq_title, release_date, lasting_date) %>%
     unique() %>%
-    mutate(lasting_days = lasting_date - release_date)
+    mutate(lasting_days = lasting_date - release_date) %>%
+    ungroup()
 ###### 음악 타입 분류 ####
-permanent_musics <- df_release_date %>% filter(lasting_days >= as.Date("2024-01-01") - as.Date("2022-01-01")) %>% .$uniq_title
-temporary_musics <- df_release_date %>% filter(lasting_days < as.Date("2024-01-01") - as.Date("2022-01-01")) %>% .$uniq_title
-candidate_musics <- df_release_date %>% 
-    filter(lasting_days < as.Date("2024-01-01") - as.Date("2022-01-01")) %>%
-    filter(lasting_date == as.Date("2024-04-08")) %>% .$uniq_title
+permanent_musics <- df_release_date %>% filter(lasting_days >= threshold_date) %>% .$uniq_title
+temporary_musics <- df_release_date %>% filter(lasting_days < threshold_date & lasting_date != max(lasting_date)) %>% .$uniq_title
+candidate_musics <- df_release_date %>% filter(lasting_date == max(lasting_date) & lasting_days < threshold_date) %>% .$uniq_title
 ###### 세 타입 적용시킨 데이터셋 ####
 genie200_typed <- tibble(genie200) %>%
     mutate(music_type = ifelse(uniq_title %in% permanent_musics, "P", "T")) %>%
@@ -67,3 +71,4 @@ quantile_typed <- genie200_typed %>%
               q99 = quantile(rankingdiff, 0.99))
 genie_rankingdiff_quantile <- genie200_typed %>%
     left_join(quantile_typed, by = "music_type")
+
