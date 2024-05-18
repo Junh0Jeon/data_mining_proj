@@ -80,7 +80,7 @@ genie200_typed %>%
 genie_rankingdiff_quantile <- genie200_typed %>%
     left_join(quantile_typed, by = "music_type") 
 ## 원래 목적은 너무 차이나는 (line48 plot)같은걸 보는거였기 때문에, 상하위 1%를 보기로 했다.
-genie_rankingdiff_quantile %>%
+
 
 
 genie200_typed %>%
@@ -107,3 +107,4 @@ genie200_typed %>%
 genie_rankingdiff_quantile %>%
     filter(rankingdiff < q01 | rankingdiff > q99) %>%
     filter(music_type == "C")
+
